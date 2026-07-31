@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-paper: #f1e9da;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: #232019;
+}
+
+.bg-ledger {
+  background-color: #f1e9da;
+  background-image:
+    repeating-linear-gradient(to bottom, transparent, transparent 30px, rgba(31, 59, 77, 0.05) 31px),
+    linear-gradient(to right, rgba(168, 118, 62, 0.08) 0, rgba(168, 118, 62, 0.08) 2px, transparent 2px);
+  background-position: 0 0, 56px 0;
+}
+
+.stamp {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1.5px solid #a8763e;
+  color: #a8763e;
+  padding: 0.35rem 0.85rem;
+  transform: rotate(-1.2deg);
+  font-family: var(--font-plex-mono), monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.stamp::before,
+.stamp::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 1.5px solid #a8763e;
+  border-radius: 50%;
+}
+.stamp::before { top: -4px; left: -4px; }
+.stamp::after { bottom: -4px; right: -4px; }
+
+.rule-double {
+  border-top: 3px double #232019;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #1f3b4d;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
