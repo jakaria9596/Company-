@@ -16,11 +16,6 @@ export default async function HomePage({ params: { locale } }) {
   return (
     <div>
       <section className="mb-12 pb-8 rule-double">
-        <img
-          src="/images/hero-banner.svg"
-          alt="The Corporate File"
-          className="w-full mb-6"
-        />
         <div className="stamp mb-4">{locale === 'bn' ? 'সংরক্ষিত মহাফেজখানা' : 'Est. Archive'}</div>
         <h1 className="font-display-en text-4xl md:text-5xl font-black text-ink leading-tight">
           {dict.tagline}
