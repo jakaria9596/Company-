@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { getDictionary } from '../../../lib/dictionary';
 
 export async function generateMetadata({ params: { locale } }) {
