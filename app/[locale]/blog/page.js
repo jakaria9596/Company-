@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { getAllArticles } from '../../../lib/sheets';
 import { getDictionary } from '../../../lib/dictionary';
 import ArticleCard from '../../../components/ArticleCard';
