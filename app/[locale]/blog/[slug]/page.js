@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { getArticleBySlug, getAllSlugs, getAllArticles } from '../../../../lib/sheets';
 import { getDictionary } from '../../../../lib/dictionary';
 import { formatContent } from '../../../../lib/formatContent';
