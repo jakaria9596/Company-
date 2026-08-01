@@ -1,6 +1,6 @@
 export const runtime = 'edge';
 
-import { getArticleBySlug, getAllSlugs, getAllArticles } from '../../../../lib/sheets';
+import { getArticleBySlug, getAllArticles } from '../../../../lib/sheets';
 import { getDictionary } from '../../../../lib/dictionary';
 import { formatContent } from '../../../../lib/formatContent';
 import ArticleCard from '../../../../components/ArticleCard';
@@ -9,15 +9,6 @@ import { notFound } from 'next/navigation';
 export const revalidate = 300;
 
 const SITE_URL = 'https://www.yourdomain.com'; // TODO: বদলে দিন
-
-export async function generateStaticParams() {
-  try {
-    const slugs = await getAllSlugs();
-    return ['bn', 'en'].flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
-  } catch (e) {
-    return [];
-  }
-}
 
 export async function generateMetadata({ params: { locale, slug } }) {
   const article = await getArticleBySlug(slug, locale);
