@@ -1,0 +1,41 @@
+<svg width="1200" height="500" viewBox="0 0 1200 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="lines" width="1200" height="32" patternUnits="userSpaceOnUse">
+      <rect width="1200" height="32" fill="#F1E9D8"/>
+      <line x1="0" y1="31" x2="1200" y2="31" stroke="#D9CBAE" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F1E9D8" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#F1E9D8" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="500" fill="url(#lines)"/>
+  <line x1="80" y1="0" x2="80" y2="500" stroke="#E3A857" stroke-opacity="0.35" stroke-width="1"/>
+  <polygon points="1200,0 1140,0 1200,60" fill="#E3D5B8"/>
+  <polygon points="1200,0 1140,0 1200,60" fill="none" stroke="#8A6D3B" stroke-width="1"/>
+  <g transform="translate(90,60)">
+    <rect x="0" y="0" width="230" height="60" fill="none" stroke="#B5651D" stroke-width="2"/>
+    <circle cx="14" cy="14" r="3" fill="none" stroke="#B5651D" stroke-width="1.5"/>
+    <circle cx="216" cy="14" r="3" fill="none" stroke="#B5651D" stroke-width="1.5"/>
+    <circle cx="14" cy="46" r="3" fill="none" stroke="#B5651D" stroke-width="1.5"/>
+    <circle cx="216" cy="46" r="3" fill="none" stroke="#B5651D" stroke-width="1.5"/>
+    <text x="115" y="37" font-family="Courier New, monospace" font-size="15" letter-spacing="3" fill="#B5651D" text-anchor="middle">EST. ARCHIVE</text>
+  </g>
+  <line x1="90" y1="145" x2="1000" y2="145" stroke="#1C1A17" stroke-width="2"/>
+  <line x1="90" y1="151" x2="1000" y2="151" stroke="#1C1A17" stroke-width="2"/>
+  <text x="90" y="230" font-family="Georgia, 'Times New Roman', serif" font-size="58" font-weight="900" fill="#1C1A17">The Corporate File</text>
+  <text x="90" y="278" font-family="Georgia, 'Times New Roman', serif" font-size="26" fill="#3A3530">Origin stories of the world's biggest companies</text>
+  <g transform="translate(760,300)">
+    <rect x="0" y="40" width="330" height="120" rx="4" fill="#EFE3C8" stroke="#8A6D3B" stroke-width="1.5"/>
+    <rect x="20" y="15" width="120" height="30" rx="3" fill="#EFE3C8" stroke="#8A6D3B" stroke-width="1.5"/>
+    <text x="20" y="35" font-family="Courier New, monospace" font-size="11" letter-spacing="2" fill="#8A6D3B">FILE NO. 001</text>
+    <line x1="20" y1="70" x2="300" y2="70" stroke="#B5651D" stroke-width="1.5"/>
+    <line x1="20" y1="95" x2="260" y2="95" stroke="#C7B896" stroke-width="1"/>
+    <line x1="20" y1="115" x2="280" y2="115" stroke="#C7B896" stroke-width="1"/>
+    <line x1="20" y1="135" x2="230" y2="135" stroke="#C7B896" stroke-width="1"/>
+  </g>
+  <g transform="translate(720,270) rotate(-4)">
+    <rect x="0" y="40" width="330" height="120" rx="4" fill="#F6EFDC" stroke="#8A6D3B" stroke-width="1.5" opacity="0.9"/>
+  </g>
+  <rect x="0" y="440" width="1200" height="60" fill="url(#fade)"/>
+</svg>
