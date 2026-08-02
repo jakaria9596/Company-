@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation';
 
 export const revalidate = 300;
 
-const SITE_URL = 'https://www.yourdomain.com'; // TODO: বদলে দিন
+const SITE_URL = 'https://bizkotha.com';
 
 export async function generateMetadata({ params: { locale, slug } }) {
   const article = await getArticleBySlug(slug, locale);
