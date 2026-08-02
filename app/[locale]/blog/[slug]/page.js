@@ -36,7 +36,15 @@ export default async function ArticlePage({ params: { locale, slug } }) {
   if (!article) notFound();
 
   const allArticles = await getAllArticles(locale);
-  const related = allArticles.filter((a) => a.slug !== slug && a.category === article.category).slice(0, 3);
+
+  const norm = (s) => (s || '').toLowerCase().trim();
+  let related = allArticles
+    .filter((a) => a.slug !== slug && norm(a.category) === norm(article.category))
+    .slice(0, 3);
+
+  if (related.length === 0) {
+    related = allArticles.filter((a) => a.slug !== slug).slice(0, 3);
+  }
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -68,8 +76,14 @@ export default async function ArticlePage({ params: { locale, slug } }) {
       </div>
 
       {article.image && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={article.image} alt={article.title} className="w-full mb-8 border-2 border-ink/80" />
+        <div className="relative w-full aspect-video mb-8 border-2 border-ink/80 overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={article.image}
+            alt={article.title}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
       )}
 
       <div
