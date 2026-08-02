@@ -10,7 +10,7 @@ const tiroBangla = Tiro_Bangla({ subsets: ['bengali'], weight: ['400'], variable
 const hindSiliguri = Hind_Siliguri({ subsets: ['bengali'], weight: ['400', '500', '600'], variable: '--font-hind-siliguri', display: 'swap' });
 const plexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-plex-mono', display: 'swap' });
 
-const SITE_URL = 'https://www.yourdomain.com'; // TODO: বদলে দিন
+const SITE_URL = 'https://bizkotha.com';
 
 export function generateStaticParams() {
   return [{ locale: 'bn' }, { locale: 'en' }];
@@ -25,6 +25,9 @@ export async function generateMetadata({ params: { locale } }) {
     alternates: {
       canonical: `${SITE_URL}/${locale}`,
       languages: { bn: `${SITE_URL}/bn`, en: `${SITE_URL}/en` },
+    },
+    verification: {
+      google: 'RCm0YOEOyUQ-tTjLuWvEU5OMg7tqgSircJndVO95GIM',
     },
   };
 }
