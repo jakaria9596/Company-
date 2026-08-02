@@ -1,6 +1,6 @@
 import { getAllSlugs } from '../lib/sheets';
 
-const SITE_URL = 'https://www.yourdomain.com'; // TODO: বদলে দিন
+const SITE_URL = 'https://bizkotha.com';
 
 export default async function sitemap() {
   const staticPaths = ['', '/blog', '/about'];
