@@ -1,4 +1,4 @@
-const SITE_URL = 'https://www.yourdomain.com'; // TODO: বদলে দিন
+const SITE_URL = 'https://bizkotha.com';
 
 export default function robots() {
   return {
