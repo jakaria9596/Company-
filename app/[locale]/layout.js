@@ -3,6 +3,7 @@ import '../globals.css';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { getDictionary } from '../../lib/dictionary';
+import { getAllArticles } from '../../lib/sheets';
 
 const fraunces = Fraunces({ subsets: ['latin'], weight: ['400', '600', '900'], variable: '--font-fraunces', display: 'swap' });
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-inter', display: 'swap' });
@@ -32,16 +33,22 @@ export async function generateMetadata({ params: { locale } }) {
   };
 }
 
-export default function LocaleLayout({ children, params: { locale } }) {
+export default async function LocaleLayout({ children, params: { locale } }) {
   const dict = getDictionary(locale);
   const fontClass = locale === 'bn'
     ? `${tiroBangla.variable} ${hindSiliguri.variable} font-body-bn`
     : `${fraunces.variable} ${inter.variable} font-body-en`;
 
+  let categories = [];
+  try {
+    const articles = await getAllArticles(locale);
+    categories = [...new Set(articles.map((a) => a.category).filter((c) => c && c.length <= 25))];
+  } catch (e) {}
+
   return (
     <html lang={locale}>
       <body className={`${fontClass} ${plexMono.variable} bg-white min-h-screen flex flex-col`}>
-        <Header locale={locale} dict={dict} />
+        <Header locale={locale} dict={dict} categories={categories} />
         <main className="flex-1 w-full max-w-3xl mx-auto px-5 py-6">{children}</main>
         <Footer dict={dict} />
       </body>
