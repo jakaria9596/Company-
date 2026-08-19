@@ -1,7 +1,6 @@
 export const runtime = 'edge';
 
 import { getAllArticles } from '../../lib/sheets';
-import { getDictionary } from '../../lib/dictionary';
 import ArticleCard from '../../components/ArticleCard';
 import CategoryTabs from '../../components/CategoryTabs';
 import TrendingCarousel from '../../components/TrendingCarousel';
@@ -9,13 +8,12 @@ import TrendingCarousel from '../../components/TrendingCarousel';
 export const revalidate = 300;
 
 export default async function HomePage({ params: { locale } }) {
-  const dict = getDictionary(locale);
   let articles = [];
   try {
     articles = await getAllArticles(locale);
   } catch (e) {}
 
-  const categories = [...new Set(articles.map((a) => a.category).filter(Boolean))];
+  const categories = [...new Set(articles.map((a) => a.category).filter((c) => c && c.length <= 25))];
   const trending = articles.slice(0, 5);
   const rest = articles.slice(0, 12);
 
@@ -25,18 +23,12 @@ export default async function HomePage({ params: { locale } }) {
         <CategoryTabs locale={locale} categories={categories} active={null} />
       </div>
 
-      <TrendingCarousel
-        articles={trending}
-        locale={locale}
-        label={locale === 'bn' ? 'এখন সবচেয়ে বেশি পঠিত' : 'Trending now'}
-      />
+      <TrendingCarousel articles={trending} locale={locale} />
 
-      <div className="px-4 md:px-0 mt-6">
+      <div className="px-4 md:px-0 mt-5">
         {rest.length === 0 ? (
           <p className="text-ink-soft text-sm">
-            {locale === 'bn'
-              ? 'এখনো কোনো ফাইল যুক্ত হয়নি।'
-              : 'No stories yet.'}
+            {locale === 'bn' ? 'এখনো কোনো ফাইল যুক্ত হয়নি।' : 'No stories yet.'}
           </p>
         ) : (
           <PostGrid articles={rest} locale={locale} />
