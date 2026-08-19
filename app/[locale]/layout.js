@@ -40,9 +40,9 @@ export default function LocaleLayout({ children, params: { locale } }) {
 
   return (
     <html lang={locale}>
-      <body className={`${fontClass} ${plexMono.variable} bg-ledger min-h-screen flex flex-col`}>
+      <body className={`${fontClass} ${plexMono.variable} bg-white min-h-screen flex flex-col`}>
         <Header locale={locale} dict={dict} />
-        <main className="flex-1 w-full max-w-3xl mx-auto px-5 py-10">{children}</main>
+        <main className="flex-1 w-full max-w-3xl mx-auto px-5 py-6">{children}</main>
         <Footer dict={dict} />
       </body>
     </html>
