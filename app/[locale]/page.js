@@ -2,7 +2,6 @@ export const runtime = 'edge';
 
 import { getAllArticles } from '../../lib/sheets';
 import ArticleCard from '../../components/ArticleCard';
-import CategoryTabs from '../../components/CategoryTabs';
 import TrendingCarousel from '../../components/TrendingCarousel';
 
 export const revalidate = 300;
@@ -13,16 +12,11 @@ export default async function HomePage({ params: { locale } }) {
     articles = await getAllArticles(locale);
   } catch (e) {}
 
-  const categories = [...new Set(articles.map((a) => a.category).filter((c) => c && c.length <= 25))];
   const trending = articles.slice(0, 5);
   const rest = articles.slice(0, 12);
 
   return (
     <div className="-mx-5 md:mx-0">
-      <div className="px-1">
-        <CategoryTabs locale={locale} categories={categories} active={null} />
-      </div>
-
       <TrendingCarousel articles={trending} locale={locale} />
 
       <div className="px-4 md:px-0 mt-5">
