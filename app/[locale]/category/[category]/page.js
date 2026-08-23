@@ -1,6 +1,6 @@
 export const runtime = 'edge';
 
-import { getAllArticles } from '../../../../lib/sheets';
+import { getAllArticles } from '../../../../lib/notion';
 import ArticleCard from '../../../../components/ArticleCard';
 import TrendingCarousel from '../../../../components/TrendingCarousel';
 import { notFound } from 'next/navigation';
@@ -8,17 +8,12 @@ import { notFound } from 'next/navigation';
 export const revalidate = 300;
 
 export default async function CategoryPage({ params: { locale, category } }) {
-  const decodedCategory = decodeURIComponent(category);
-
   let allArticles = [];
   try {
     allArticles = await getAllArticles(locale);
   } catch (e) {}
 
-  const filtered = allArticles.filter(
-    (a) => (a.category || '').trim().toLowerCase() === decodedCategory.trim().toLowerCase()
-  );
-
+  const filtered = allArticles.filter((a) => a.categorySlug === category);
   if (filtered.length === 0) notFound();
 
   const trending = filtered.slice(0, 5);
@@ -27,7 +22,6 @@ export default async function CategoryPage({ params: { locale, category } }) {
   return (
     <div className="-mx-5 md:mx-0">
       <TrendingCarousel articles={trending} locale={locale} />
-
       <div className="px-4 md:px-0 mt-5">
         <PostGrid articles={rest} locale={locale} />
       </div>
