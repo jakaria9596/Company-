@@ -1,6 +1,6 @@
 export const runtime = 'edge';
 
-import { getAllArticles } from '../../lib/sheets';
+import { getAllArticles } from '../../lib/notion';
 import ArticleCard from '../../components/ArticleCard';
 import TrendingCarousel from '../../components/TrendingCarousel';
 
@@ -18,7 +18,6 @@ export default async function HomePage({ params: { locale } }) {
   return (
     <div className="-mx-5 md:mx-0">
       <TrendingCarousel articles={trending} locale={locale} />
-
       <div className="px-4 md:px-0 mt-5">
         {rest.length === 0 ? (
           <p className="text-ink-soft text-sm">
