@@ -2,7 +2,6 @@ export const runtime = 'edge';
 
 import { getAllArticles } from '../../../../lib/sheets';
 import ArticleCard from '../../../../components/ArticleCard';
-import CategoryTabs from '../../../../components/CategoryTabs';
 import TrendingCarousel from '../../../../components/TrendingCarousel';
 import { notFound } from 'next/navigation';
 
@@ -16,8 +15,6 @@ export default async function CategoryPage({ params: { locale, category } }) {
     allArticles = await getAllArticles(locale);
   } catch (e) {}
 
-  const categories = [...new Set(allArticles.map((a) => a.category).filter((c) => c && c.length <= 25))];
-
   const filtered = allArticles.filter(
     (a) => (a.category || '').trim().toLowerCase() === decodedCategory.trim().toLowerCase()
   );
@@ -29,10 +26,6 @@ export default async function CategoryPage({ params: { locale, category } }) {
 
   return (
     <div className="-mx-5 md:mx-0">
-      <div className="px-1">
-        <CategoryTabs locale={locale} categories={categories} active={decodedCategory} />
-      </div>
-
       <TrendingCarousel articles={trending} locale={locale} />
 
       <div className="px-4 md:px-0 mt-5">
@@ -64,4 +57,4 @@ function PostGrid({ articles, locale }) {
     big = !big;
   }
   return <>{blocks}</>;
-    }
+}
