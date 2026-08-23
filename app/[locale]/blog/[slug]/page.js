@@ -1,6 +1,6 @@
 export const runtime = 'edge';
 
-import { getArticleBySlug, getAllArticles } from '../../../../lib/sheets';
+import { getArticleBySlug, getAllArticles } from '../../../../lib/notion';
 import { getDictionary } from '../../../../lib/dictionary';
 import { formatContent } from '../../../../lib/formatContent';
 import ArticleCard from '../../../../components/ArticleCard';
