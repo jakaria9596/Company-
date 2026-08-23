@@ -14,9 +14,8 @@ module.exports = {
       },
       fontFamily: {
         'display-en': ['var(--font-fraunces)', 'serif'],
-        'display-bn': ['var(--font-tiro-bangla)', 'serif'],
         'body-en': ['var(--font-inter)', 'sans-serif'],
-        'body-bn': ['var(--font-hind-siliguri)', 'sans-serif'],
+        'body-bn': ['var(--font-noto-bengali)', 'sans-serif'],
         mono: ['var(--font-plex-mono)', 'monospace'],
       },
     },
