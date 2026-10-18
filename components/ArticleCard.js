@@ -1,16 +1,23 @@
 import Link from 'next/link';
+import { imgSrc, imgSrcSet } from '../lib/image';
 
-export default function ArticleCard({ article, locale, big = false }) {
+export default function ArticleCard({ article, locale, big = false, priority = false }) {
   return (
-    <Link href={`/${locale}/blog/${article.slug}`} className="block group">
+    <Link href={`/${locale}/blog/${encodeURIComponent(article.slug)}`} className="block group">
       <div
         className={`w-full ${big ? 'h-44' : 'h-28'} rounded-2xl overflow-hidden bg-cardbg flex items-center justify-center`}
       >
         {article.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={article.image}
+            src={imgSrc(article.image, 480)}
+            srcSet={imgSrcSet(article.image, [320, 480, 640, 960])}
+            sizes={big ? '(min-width: 768px) 720px, 100vw' : '(min-width: 768px) 340px, 50vw'}
             alt={article.title}
+            width={640}
+            height={big ? 352 : 224}
+            loading={priority ? 'eager' : 'lazy'}
+            decoding="async"
             className="w-full h-full object-cover"
           />
         ) : (
