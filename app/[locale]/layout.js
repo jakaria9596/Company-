@@ -6,8 +6,8 @@ import { getDictionary } from '../../lib/dictionary';
 
 const fraunces = Fraunces({ subsets: ['latin'], weight: ['400', '600', '900'], variable: '--font-fraunces', display: 'swap' });
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-inter', display: 'swap' });
-const notoBengali = Noto_Sans_Bengali({ subsets: ['bengali'], weight: ['400', '500', '600', '700'], variable: '--font-noto-bengali', display: 'swap' });
-const plexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-plex-mono', display: 'swap' });
+const notoBengali = Noto_Sans_Bengali({ subsets: ['bengali'], weight: ['400', '600', '700'], variable: '--font-noto-bengali', display: 'swap' });
+const plexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400'], variable: '--font-plex-mono', display: 'swap', preload: false });
 
 const SITE_URL = 'https://bizkotha.com';
 
@@ -19,11 +19,12 @@ export async function generateMetadata({ params: { locale } }) {
   const dict = getDictionary(locale);
   return {
     metadataBase: new URL(SITE_URL),
-    title: { default: dict.siteName, template: `%s | ${dict.siteName}` },
-    description: dict.tagline,
-    alternates: {
-      canonical: `${SITE_URL}/${locale}`,
-      languages: { bn: `${SITE_URL}/bn`, en: `${SITE_URL}/en` },
+    title: { default: dict.homeTitle, template: `%s | ${dict.siteName}` },
+    description: dict.homeDescription,
+    openGraph: {
+      siteName: dict.siteName,
+      locale: locale === 'bn' ? 'bn_BD' : 'en_US',
+      type: 'website',
     },
     verification: {
       google: 'RCm0YOEOyUQ-tTjLuWvEU5OMg7tqgSircJndVO95GIM',
