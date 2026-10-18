@@ -63,9 +63,29 @@ export default async function ArticlePage({ params: { locale, slug } }) {
     inLanguage: locale,
   };
 
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: dict.nav.home, item: `${SITE_URL}/${locale}` },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: article.category,
+        item: `${SITE_URL}/${locale}/category/${article.categorySlug}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: article.title,
+        item: `${SITE_URL}/${locale}/blog/${encodeURIComponent(article.slug)}`,
+      },
+    ],
+  };
+
   return (
     <article className="-mx-5 md:mx-0">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, breadcrumb]) }} />
 
       <div className="px-4 md:px-0 mb-3">
         <Link href={`/${locale}`} className="text-ink-soft text-sm">
@@ -91,9 +111,12 @@ export default async function ArticlePage({ params: { locale, slug } }) {
       )}
 
       <div className="px-4 md:px-0">
-        <span className="text-[11px] font-bold tracking-wide text-accent">
+        <Link
+          href={`/${locale}/category/${article.categorySlug}`}
+          className="text-[11px] font-bold tracking-wide text-accent"
+        >
           {article.category}
-        </span>
+        </Link>
 
         <h1 className="font-display-en text-2xl md:text-4xl font-black text-ink leading-snug mt-2 mb-3">
           {article.title}
