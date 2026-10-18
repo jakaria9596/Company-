@@ -1,17 +1,9 @@
 import { NextResponse } from 'next/server';
 
 const LOCALES = ['bn', 'en'];
-const DEFAULT_LOCALE = 'en';
-
-function pickLocale(request) {
-  const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
-  if (cookieLocale && LOCALES.includes(cookieLocale)) return cookieLocale;
-
-  const acceptLang = request.headers.get('accept-language') || '';
-  if (acceptLang.toLowerCase().includes('bn')) return 'bn';
-
-  return DEFAULT_LOCALE;
-}
+// Bizkotha is written for readers in Bangladesh: Bengali is the default.
+// Googlebot sends no Accept-Language header, so it must land on Bengali too.
+const DEFAULT_LOCALE = 'bn';
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;
@@ -24,17 +16,23 @@ export function middleware(request) {
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
+    pathname.startsWith('/img/') ||
     pathname.includes('.')
   ) {
     return NextResponse.next();
   }
 
-  const locale = pickLocale(request);
+  // Only a language the reader explicitly picked (cookie) overrides the default.
+  const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
+  const locale = LOCALES.includes(cookieLocale) ? cookieLocale : DEFAULT_LOCALE;
+
   const url = request.nextUrl.clone();
-  url.pathname = `/${locale}${pathname}`;
-  return NextResponse.redirect(url);
+  url.pathname = `/${locale}${pathname === '/' ? '' : pathname}`;
+  const res = NextResponse.redirect(url, cookieLocale ? 307 : 308);
+  res.headers.set('Cache-Control', 'no-store');
+  return res;
 }
 
 export const config = {
-  matcher: ['/((?!_next|api|.*\\..*).*)'],
+  matcher: ['/((?!_next|api|img/|.*\\..*).*)'],
 };
