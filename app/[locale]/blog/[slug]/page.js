@@ -4,10 +4,9 @@ import { getArticleBySlug, getAllArticles } from '../../../../lib/notion';
 import { getDictionary } from '../../../../lib/dictionary';
 import { formatContent } from '../../../../lib/formatContent';
 import ArticleCard from '../../../../components/ArticleCard';
+import { imgSrc, imgSrcSet } from '../../../../lib/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-
-export const revalidate = 300;
 
 const SITE_URL = 'https://bizkotha.com';
 
@@ -15,19 +14,25 @@ export async function generateMetadata({ params: { locale, slug } }) {
   const article = await getArticleBySlug(slug, locale);
   if (!article) return {};
 
+  const description = article.metaDescription || article.excerpt;
+  const url = `${SITE_URL}/${locale}/blog/${encodeURIComponent(article.slug)}`;
+  const ogImage = article.image ? [`${SITE_URL}${article.image}&w=1280`] : [];
+
   return {
     title: article.title,
-    description: article.metaDescription || article.excerpt,
-    alternates: {
-      canonical: `${SITE_URL}/${locale}/blog/${slug}`,
-      languages: { bn: `${SITE_URL}/bn/blog/${slug}`, en: `${SITE_URL}/en/blog/${slug}` },
-    },
+    description,
+    // Each story exists in one language only, so no hreflang alternates here.
+    alternates: { canonical: url },
     openGraph: {
       title: article.title,
-      description: article.metaDescription || article.excerpt,
-      images: article.image ? [article.image] : [],
+      description,
+      url,
+      images: ogImage,
       type: 'article',
+      publishedTime: article.publishedDate || undefined,
+      modifiedTime: article.lastEdited || undefined,
     },
+    twitter: { card: 'summary_large_image', title: article.title, description, images: ogImage },
   };
 }
 
@@ -37,12 +42,11 @@ export default async function ArticlePage({ params: { locale, slug } }) {
   if (!article) notFound();
 
   const allArticles = await getAllArticles(locale);
-  const norm = (s) => (s || '').toLowerCase().trim();
   let related = allArticles
-    .filter((a) => a.slug !== slug && norm(a.category) === norm(article.category))
+    .filter((a) => a.slug !== article.slug && a.categorySlug === article.categorySlug)
     .slice(0, 4);
   if (related.length === 0) {
-    related = allArticles.filter((a) => a.slug !== slug).slice(0, 4);
+    related = allArticles.filter((a) => a.slug !== article.slug).slice(0, 4);
   }
 
   const jsonLd = {
@@ -50,8 +54,11 @@ export default async function ArticlePage({ params: { locale, slug } }) {
     '@type': 'Article',
     headline: article.title,
     description: article.metaDescription || article.excerpt,
-    image: article.image ? [article.image] : undefined,
+    image: article.image ? [`${SITE_URL}${article.image}&w=1280`] : undefined,
     datePublished: article.publishedDate,
+    dateModified: article.lastEdited || article.publishedDate,
+    mainEntityOfPage: `${SITE_URL}/${locale}/blog/${encodeURIComponent(article.slug)}`,
+    publisher: { '@type': 'Organization', name: 'Bizkotha', url: SITE_URL },
     author: { '@type': 'Person', name: article.author || dict.siteName },
     inLanguage: locale,
   };
@@ -69,7 +76,17 @@ export default async function ArticlePage({ params: { locale, slug } }) {
       {article.image && (
         <div className="w-full aspect-video bg-cardbg overflow-hidden mb-5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={article.image} alt={article.title} className="w-full h-full object-cover" />
+          <img
+            src={imgSrc(article.image, 960)}
+            srcSet={imgSrcSet(article.image, [480, 640, 960, 1280])}
+            sizes="(min-width: 768px) 768px, 100vw"
+            alt={article.title}
+            width={1280}
+            height={720}
+            loading="eager"
+            decoding="async"
+            className="w-full h-full object-cover"
+          />
         </div>
       )}
 
