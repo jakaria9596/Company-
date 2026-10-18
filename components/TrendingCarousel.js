@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { imgSrc, imgSrcSet } from '../lib/image';
 
 export default function TrendingCarousel({ articles, locale }) {
   const trackRef = useRef(null);
@@ -39,12 +40,22 @@ export default function TrendingCarousel({ articles, locale }) {
       {loop.map((a, i) => (
         <Link
           key={i}
-          href={`/${locale}/blog/${a.slug}`}
+          href={`/${locale}/blog/${encodeURIComponent(a.slug)}`}
           className="relative shrink-0 w-64 h-36 rounded-2xl overflow-hidden flex items-end p-3 bg-cardbg"
         >
           {a.image && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={a.image} alt={a.title} className="absolute inset-0 w-full h-full object-cover" />
+            <img
+              src={imgSrc(a.image, 480)}
+              srcSet={imgSrcSet(a.image, [320, 480, 640])}
+              sizes="256px"
+              alt={a.title}
+              width={512}
+              height={288}
+              loading={i < 2 ? 'eager' : 'lazy'}
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
           <p className="relative text-white font-semibold text-sm leading-snug line-clamp-2">
