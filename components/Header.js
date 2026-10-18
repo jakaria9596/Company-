@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { CATEGORIES } from '../lib/categories';
+import { ACTIVE_CATEGORIES, categoryLabel } from '../lib/categories';
 
 export default function Header({ locale, dict }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -51,7 +51,7 @@ export default function Header({ locale, dict }) {
                 className="absolute top-[calc(100%+6px)] right-0 z-20 rounded-xl overflow-hidden shadow-xl border border-gray-100"
                 style={{ width: 180, background: '#fff' }}
               >
-                {CATEGORIES.map((c) => (
+                {ACTIVE_CATEGORIES.map((c) => (
                   <div key={c.slug} style={{ borderBottom: '1px solid #F5F5F3' }}>
                     <div className="flex items-center justify-between">
                       <Link
@@ -60,7 +60,7 @@ export default function Header({ locale, dict }) {
                         className="flex-1 text-left px-4 py-2.5 text-[13px] font-bold"
                         style={{ color: '#141414' }}
                       >
-                        {c.en}
+                        {categoryLabel(c, locale)}
                       </Link>
                       <button
                         onClick={() => setMenuLangOpen(menuLangOpen === c.slug ? null : c.slug)}
@@ -103,14 +103,14 @@ export default function Header({ locale, dict }) {
         className="flex gap-1 px-2 pb-2 max-w-3xl mx-auto"
         style={{ overflowX: 'auto', overflowY: 'visible', scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
       >
-        {CATEGORIES.map((c) => (
+        {ACTIVE_CATEGORIES.map((c) => (
           <div key={c.slug} className="relative shrink-0 flex items-center">
             <Link
               href={`/${locale}/category/${c.slug}`}
               className="px-3 py-1.5 text-sm rounded-l-full whitespace-nowrap font-bold"
               style={{ color: '#141414', background: '#F7F7F5' }}
             >
-              {c.en}
+              {categoryLabel(c, locale)}
             </Link>
             <button
               onClick={() => setCatOpen(catOpen === c.slug ? null : c.slug)}
